@@ -3,20 +3,36 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { MapPin, Phone, Clock, Star, Instagram, Pizza, Flame, Send } from "lucide-react";
+import { MapPin, Phone, Clock, Star, Instagram, Pizza, Flame, Send, ChevronDown, ChevronUp } from "lucide-react";
 import heroPizza from "@/assets/hero-pizza.jpg";
+import imgCapricciosa from "@/assets/menu-capricciosa.jpg";
+import imgPeperoni from "@/assets/menu-peperoni.jpg";
+import imgVesuvio from "@/assets/menu-vesuvio.jpg";
+import imgMargherita from "@/assets/menu-margherita.jpg";
+import imgQuattro from "@/assets/menu-quattro.jpg";
+import imgFunghi from "@/assets/menu-funghi.jpg";
+import imgStagioni from "@/assets/menu-stagioni.jpg";
+import imgPalSlane from "@/assets/menu-palacinke-slane.jpg";
+import imgPalSlatke from "@/assets/menu-palacinke-slatke.jpg";
 
-const menuItems = [
-  { name: "Capricciosa", desc: "Pelat, mocarela, šunka, šampinjoni, masline", price: "950 RSD", tag: "Klasika" },
-  { name: "Peperoni", desc: "Pelat, mocarela, ljuta peperoni salama", price: "980 RSD", tag: "Ljuto" },
-  { name: "Vesuvio", desc: "Pelat, mocarela, šunka, origano", price: "900 RSD", tag: "Omiljeno" },
-  { name: "Margherita", desc: "Pelat, mocarela, svež bosiljak", price: "780 RSD", tag: "Vege" },
-  { name: "Slane palačinke", desc: "Šunka, sir, pavlaka — bogat izbor", price: "550 RSD", tag: "Lagano" },
-  { name: "Slatke palačinke", desc: "Nutella, lešnik, bananа, džem", price: "500 RSD", tag: "Slatko" },
+type MenuItem = { name: string; desc: string; price: string; tag: string; img: string; bestseller?: boolean };
+
+const menuItems: MenuItem[] = [
+  { name: "Capricciosa", desc: "Pelat, mocarela, šunka, šampinjoni, masline", price: "950 RSD", tag: "Klasika", img: imgCapricciosa, bestseller: true },
+  { name: "Peperoni", desc: "Pelat, mocarela, ljuta peperoni salama", price: "980 RSD", tag: "Ljuto", img: imgPeperoni, bestseller: true },
+  { name: "Vesuvio", desc: "Pelat, mocarela, šunka, origano", price: "900 RSD", tag: "Omiljeno", img: imgVesuvio, bestseller: true },
+  { name: "Margherita", desc: "Pelat, mocarela, svež bosiljak", price: "780 RSD", tag: "Vege", img: imgMargherita },
+  { name: "Quattro Formaggi", desc: "Četiri vrste sira — gorgonzola, parmezan, mocarela, edamer", price: "1100 RSD", tag: "Sir", img: imgQuattro },
+  { name: "Funghi", desc: "Pelat, mocarela, sveži šampinjoni, origano", price: "850 RSD", tag: "Vege", img: imgFunghi },
+  { name: "Quattro Stagioni", desc: "Šunka, šampinjoni, artičoke, masline", price: "1050 RSD", tag: "Bogato", img: imgStagioni },
+  { name: "Slane palačinke", desc: "Šunka, sir, pavlaka — bogat izbor", price: "550 RSD", tag: "Lagano", img: imgPalSlane },
+  { name: "Slatke palačinke", desc: "Nutella, lešnik, banana, džem", price: "500 RSD", tag: "Slatko", img: imgPalSlatke },
 ];
 
 const Index = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [showFullMenu, setShowFullMenu] = useState(false);
+  const visibleMenu = showFullMenu ? menuItems : menuItems.filter((m) => m.bestseller);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,23 +135,64 @@ const Index = () => {
         <div className="container">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <div className="text-sm uppercase tracking-[0.3em] text-primary font-semibold mb-4">Naš Meni</div>
-            <h2 className="font-display text-5xl md:text-6xl font-bold mb-4">Pažljivo odabrana jela</h2>
-            <p className="text-muted-foreground text-lg">Od klasične pice u italijanskom stilu do laganih palačinki — svako jelo pripremamo sa svežim sastojcima.</p>
+            <h2 className="font-display text-5xl md:text-6xl font-bold mb-4">
+              {showFullMenu ? "Kompletan meni" : "Najprodavanije"}
+            </h2>
+            <p className="text-muted-foreground text-lg">
+              {showFullMenu
+                ? "Sva jela koja pripremamo sa svežim sastojcima — od klasične italijanske pice do laganih palačinki."
+                : "Naša najtraženija jela. Kliknite ispod da otkrijete kompletan meni."}
+            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {menuItems.map((item) => (
-              <article key={item.name} className="group p-8 rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-warm transition-all duration-300 hover:-translate-y-1">
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="font-display text-2xl font-bold">{item.name}</h3>
-                  <span className="text-xs px-3 py-1 rounded-full bg-accent/15 text-accent-foreground border border-accent/30 font-medium">{item.tag}</span>
+            {visibleMenu.map((item) => (
+              <article key={item.name} className="group overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-warm transition-all duration-300 hover:-translate-y-1 flex flex-col">
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img
+                    src={item.img}
+                    alt={`${item.name} — ${item.desc}`}
+                    loading="lazy"
+                    width={768}
+                    height={576}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  {item.bestseller && (
+                    <span className="absolute top-3 left-3 text-xs px-3 py-1 rounded-full bg-primary text-primary-foreground font-semibold shadow-lg">
+                      ★ Bestseller
+                    </span>
+                  )}
+                  <span className="absolute top-3 right-3 text-xs px-3 py-1 rounded-full bg-background/90 backdrop-blur-sm text-foreground border border-border font-medium">
+                    {item.tag}
+                  </span>
                 </div>
-                <p className="text-muted-foreground mb-6 leading-relaxed">{item.desc}</p>
-                <div className="flex items-center justify-between pt-4 border-t border-border">
-                  <span className="font-display text-2xl font-bold text-gradient-warm">{item.price}</span>
-                  <Pizza className="h-5 w-5 text-primary opacity-50 group-hover:opacity-100 group-hover:rotate-12 transition-all" />
+                <div className="p-6 flex flex-col flex-1">
+                  <h3 className="font-display text-2xl font-bold mb-2">{item.name}</h3>
+                  <p className="text-muted-foreground mb-6 leading-relaxed text-sm flex-1">{item.desc}</p>
+                  <div className="flex items-center justify-between pt-4 border-t border-border">
+                    <span className="font-display text-2xl font-bold text-gradient-warm">{item.price}</span>
+                    <Pizza className="h-5 w-5 text-primary opacity-50 group-hover:opacity-100 group-hover:rotate-12 transition-all" />
+                  </div>
                 </div>
               </article>
             ))}
+          </div>
+          <div className="flex justify-center mt-12">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => setShowFullMenu((v) => !v)}
+              className="border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground transition-all"
+            >
+              {showFullMenu ? (
+                <>
+                  <ChevronUp className="h-5 w-5" /> Prikaži manje
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="h-5 w-5" /> Proširi — ceo meni ({menuItems.length} jela)
+                </>
+              )}
+            </Button>
           </div>
         </div>
       </section>
