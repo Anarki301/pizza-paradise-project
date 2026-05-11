@@ -3,16 +3,30 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { MapPin, Phone, Clock, Star, Instagram, Pizza, Flame, Send } from "lucide-react";
+import { MapPin, Phone, Clock, Star, Instagram, Pizza, Flame, Send, ChevronDown, ChevronUp } from "lucide-react";
 import heroPizza from "@/assets/hero-pizza.jpg";
+import imgCapricciosa from "@/assets/menu-capricciosa.jpg";
+import imgPeperoni from "@/assets/menu-peperoni.jpg";
+import imgVesuvio from "@/assets/menu-vesuvio.jpg";
+import imgMargherita from "@/assets/menu-margherita.jpg";
+import imgQuattro from "@/assets/menu-quattro.jpg";
+import imgFunghi from "@/assets/menu-funghi.jpg";
+import imgStagioni from "@/assets/menu-stagioni.jpg";
+import imgPalSlane from "@/assets/menu-palacinke-slane.jpg";
+import imgPalSlatke from "@/assets/menu-palacinke-slatke.jpg";
 
-const menuItems = [
-  { name: "Capricciosa", desc: "Pelat, mocarela, šunka, šampinjoni, masline", price: "950 RSD", tag: "Klasika" },
-  { name: "Peperoni", desc: "Pelat, mocarela, ljuta peperoni salama", price: "980 RSD", tag: "Ljuto" },
-  { name: "Vesuvio", desc: "Pelat, mocarela, šunka, origano", price: "900 RSD", tag: "Omiljeno" },
-  { name: "Margherita", desc: "Pelat, mocarela, svež bosiljak", price: "780 RSD", tag: "Vege" },
-  { name: "Slane palačinke", desc: "Šunka, sir, pavlaka — bogat izbor", price: "550 RSD", tag: "Lagano" },
-  { name: "Slatke palačinke", desc: "Nutella, lešnik, bananа, džem", price: "500 RSD", tag: "Slatko" },
+type MenuItem = { name: string; desc: string; price: string; tag: string; img: string; bestseller?: boolean };
+
+const menuItems: MenuItem[] = [
+  { name: "Capricciosa", desc: "Pelat, mocarela, šunka, šampinjoni, masline", price: "950 RSD", tag: "Klasika", img: imgCapricciosa, bestseller: true },
+  { name: "Peperoni", desc: "Pelat, mocarela, ljuta peperoni salama", price: "980 RSD", tag: "Ljuto", img: imgPeperoni, bestseller: true },
+  { name: "Vesuvio", desc: "Pelat, mocarela, šunka, origano", price: "900 RSD", tag: "Omiljeno", img: imgVesuvio, bestseller: true },
+  { name: "Margherita", desc: "Pelat, mocarela, svež bosiljak", price: "780 RSD", tag: "Vege", img: imgMargherita },
+  { name: "Quattro Formaggi", desc: "Četiri vrste sira — gorgonzola, parmezan, mocarela, edamer", price: "1100 RSD", tag: "Sir", img: imgQuattro },
+  { name: "Funghi", desc: "Pelat, mocarela, sveži šampinjoni, origano", price: "850 RSD", tag: "Vege", img: imgFunghi },
+  { name: "Quattro Stagioni", desc: "Šunka, šampinjoni, artičoke, masline", price: "1050 RSD", tag: "Bogato", img: imgStagioni },
+  { name: "Slane palačinke", desc: "Šunka, sir, pavlaka — bogat izbor", price: "550 RSD", tag: "Lagano", img: imgPalSlane },
+  { name: "Slatke palačinke", desc: "Nutella, lešnik, banana, džem", price: "500 RSD", tag: "Slatko", img: imgPalSlatke },
 ];
 
 const Index = () => {
