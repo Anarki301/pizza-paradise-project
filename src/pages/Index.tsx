@@ -31,6 +31,8 @@ const menuItems: MenuItem[] = [
 
 const Index = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [showFullMenu, setShowFullMenu] = useState(false);
+  const visibleMenu = showFullMenu ? menuItems : menuItems.filter((m) => m.bestseller);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
