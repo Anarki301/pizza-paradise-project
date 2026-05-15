@@ -110,67 +110,133 @@ const Index = () => {
       {/* MENU */}
       <section id="menu" className="py-24">
         <div className="container">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="text-sm uppercase tracking-[0.3em] text-primary font-semibold mb-4">Naš Meni</div>
-            <h2 className="font-display text-5xl md:text-6xl font-bold mb-4">
-              {showFullMenu ? "Kompletan meni" : "Najprodavanije"}
-            </h2>
+            <h2 className="font-display text-5xl md:text-6xl font-bold mb-4">Najtraženije</h2>
             <p className="text-muted-foreground text-lg">
-              {showFullMenu
-                ? "Sva jela koja pripremamo sa svežim sastojcima — od klasične italijanske pice do laganih palačinki."
-                : "Naša najtraženija jela. Kliknite ispod da otkrijete kompletan meni."}
+              Bestseleri koje gosti najčešće naručuju. Skrolujte horizontalno i izaberite favorita.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {visibleMenu.map((item) => (
-              <article key={item.name} className="group overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-warm transition-all duration-300 hover:-translate-y-1 flex flex-col">
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img
-                    src={item.img}
-                    alt={`${item.name} — ${item.desc}`}
-                    loading="lazy"
-                    width={768}
-                    height={576}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  {item.bestseller && (
+
+          {/* Horizontal scroll bestsellers */}
+          <div className="-mx-4 md:-mx-8 px-4 md:px-8 mb-20">
+            <div className="flex gap-5 overflow-x-auto pb-6 snap-x snap-mandatory scroll-smooth [scrollbar-width:thin]">
+              {bestsellers.map((item) => (
+                <article
+                  key={item.name}
+                  className="group snap-start shrink-0 w-[260px] sm:w-[280px] overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-warm transition-all duration-300 hover:-translate-y-1 flex flex-col"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                    <img
+                      src={item.img}
+                      alt={`${item.name} — ${item.desc}`}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                     <span className="absolute top-3 left-3 text-xs px-3 py-1 rounded-full bg-primary text-primary-foreground font-semibold shadow-lg">
                       ★ Bestseller
                     </span>
-                  )}
-                  <span className="absolute top-3 right-3 text-xs px-3 py-1 rounded-full bg-background/90 backdrop-blur-sm text-foreground border border-border font-medium">
-                    {item.tag}
-                  </span>
-                </div>
-                <div className="p-6 flex flex-col flex-1">
-                  <h3 className="font-display text-2xl font-bold mb-2">{item.name}</h3>
-                  <p className="text-muted-foreground mb-6 leading-relaxed text-sm flex-1">{item.desc}</p>
-                  <div className="flex items-center justify-between pt-4 border-t border-border">
-                    <span className="font-display text-2xl font-bold text-gradient-warm">{item.price}</span>
-                    <Pizza className="h-5 w-5 text-primary opacity-50 group-hover:opacity-100 group-hover:rotate-12 transition-all" />
+                    {item.tag && (
+                      <span className="absolute top-3 right-3 text-xs px-3 py-1 rounded-full bg-background/90 backdrop-blur-sm text-foreground border border-border font-medium">
+                        {item.tag}
+                      </span>
+                    )}
                   </div>
-                </div>
-              </article>
+                  <div className="p-5 flex flex-col flex-1">
+                    <h3 className="font-display text-xl font-bold mb-2 leading-tight">{item.name}</h3>
+                    <p className="text-muted-foreground mb-4 leading-relaxed text-sm flex-1 line-clamp-3">{item.desc}</p>
+                    <div className="flex items-center justify-between pt-3 border-t border-border">
+                      <span className="font-display text-xl font-bold text-gradient-warm">{formatPrice(item.price)}</span>
+                      <Pizza className="h-4 w-4 text-primary opacity-50 group-hover:opacity-100 group-hover:rotate-12 transition-all" />
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          {/* Full menu by category */}
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <h3 className="font-display text-3xl md:text-4xl font-bold mb-3">Kompletan meni</h3>
+            <p className="text-muted-foreground">Kliknite na kategoriju da otkrijete sva jela sa sastojcima i cenama.</p>
+          </div>
+
+          <Accordion type="multiple" className="max-w-5xl mx-auto space-y-4">
+            {categories.map((cat) => (
+              <AccordionItem
+                key={cat.key}
+                value={cat.key}
+                className="border border-border rounded-2xl bg-card px-5 md:px-6 overflow-hidden"
+              >
+                <AccordionTrigger className="hover:no-underline py-5">
+                  <div className="flex items-center gap-3">
+                    <span className="font-display text-2xl md:text-3xl font-bold">{cat.label}</span>
+                    <span className="text-xs px-2.5 py-1 rounded-full bg-secondary text-muted-foreground font-medium">
+                      {cat.items.length}
+                    </span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="pb-6">
+                  {cat.type === "pizza" ? (
+                    <>
+                      <div className="hidden md:flex justify-end gap-6 px-4 mb-3 text-xs uppercase tracking-wider text-muted-foreground font-semibold">
+                        <span className="w-20 text-right">24cm</span>
+                        <span className="w-20 text-right">32cm</span>
+                        <span className="w-20 text-right">42cm</span>
+                      </div>
+                      <ul className="divide-y divide-border">
+                        {cat.items.map((item) => (
+                          <li key={item.name} className="py-4 flex flex-col md:flex-row md:items-center gap-4">
+                            <img
+                              src={item.img}
+                              alt={item.name}
+                              loading="lazy"
+                              className="w-full md:w-20 md:h-20 h-44 object-cover rounded-xl bg-muted shrink-0"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-display text-lg font-bold">{item.name}</h4>
+                              <p className="text-sm text-muted-foreground leading-snug mt-0.5">{item.desc}</p>
+                            </div>
+                            <div className="flex md:justify-end gap-6 text-sm font-semibold">
+                              {(["24cm", "32cm", "42cm"] as const).map((size) => (
+                                <div key={size} className="md:w-20 text-right">
+                                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground md:hidden">{size}</div>
+                                  <div className="text-foreground">
+                                    {item.prices[size] ? `${item.prices[size]?.toLocaleString("sr-RS")}` : "—"}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                      <p className="text-xs text-muted-foreground text-right mt-3">Cene su izražene u RSD.</p>
+                    </>
+                  ) : (
+                    <ul className="divide-y divide-border">
+                      {cat.items.map((item) => (
+                        <li key={item.name} className="py-4 flex flex-col md:flex-row md:items-center gap-4">
+                          <img
+                            src={item.img}
+                            alt={item.name}
+                            loading="lazy"
+                            className="w-full md:w-20 md:h-20 h-44 object-cover rounded-xl bg-muted shrink-0"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-display text-lg font-bold">{item.name}</h4>
+                            <p className="text-sm text-muted-foreground leading-snug mt-0.5">{item.desc}</p>
+                          </div>
+                          <div className="md:text-right">
+                            <span className="font-display text-lg font-bold text-gradient-warm">{formatPrice(item.price)}</span>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </AccordionContent>
+              </AccordionItem>
             ))}
-          </div>
-          <div className="flex justify-center mt-12">
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => setShowFullMenu((v) => !v)}
-              className="border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground transition-all"
-            >
-              {showFullMenu ? (
-                <>
-                  <ChevronUp className="h-5 w-5" /> Prikaži manje
-                </>
-              ) : (
-                <>
-                  <ChevronDown className="h-5 w-5" /> Proširi — ceo meni ({menuItems.length} jela)
-                </>
-              )}
-            </Button>
-          </div>
+          </Accordion>
         </div>
       </section>
 
