@@ -254,7 +254,7 @@ const Index = () => {
                               {(["24cm", "32cm", "42cm"] as const).map((size) => (
                                 <div key={size} className="md:w-20 text-right">
                                   <div className="text-[10px] uppercase tracking-wider text-muted-foreground md:hidden">{size}</div>
-                                  <div className="text-foreground">
+                                  <div className="font-display text-base font-bold text-gradient-warm">
                                     {item.prices[size] ? `${item.prices[size]?.toLocaleString("sr-RS")}` : "—"}
                                   </div>
                                 </div>
