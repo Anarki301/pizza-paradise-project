@@ -28,7 +28,7 @@ const Index = () => {
     setForm({ name: "", email: "", message: "" });
   };
 
-  const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=20.366%2C44.797%2C20.376%2C44.804&layer=mapnik&marker=44.8005721%2C20.3710031`;
+  const mapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2831.0303102450414!2d20.36842817666249!3d44.80057587107147!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a6fc93ff53f13%3A0x5409c7b4df8fe070!2sPremium%20Pizza%20i%20Ne%C5%A1to%20Lagano!5e0!3m2!1sen!2srs!4v1715856488331!5m2!1sen!2srs`;
 
   return (
     <div className="min-h-screen bg-background">
@@ -310,7 +310,7 @@ const Index = () => {
               />
             </div>
             <a
-              href="https://www.openstreetmap.org/?mlat=44.8005721&mlon=20.3710031#map=18/44.8005721/20.3710031"
+              href="https://www.google.com/maps/search/?api=1&query=Premium+Pizza+i+Nešto+Lagano+Jurija+Gagarina+208+Beograd"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-sm text-primary hover:underline font-medium"
