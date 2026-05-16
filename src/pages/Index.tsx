@@ -4,9 +4,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { toast } from "sonner";
-import { MapPin, Phone, Clock, Star, Instagram, Pizza, Flame, Send } from "lucide-react";
+import { MapPin, Phone, Clock, Star, Instagram, Pizza, Flame, Send, Menu } from "lucide-react";
 import heroPizza from "@/assets/hero-pizza.jpg";
 import { bestsellers, categories, formatPrice } from "@/data/menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import {
   Carousel,
   CarouselContent,
@@ -17,6 +22,7 @@ import {
 
 const Index = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,9 +51,30 @@ const Index = () => {
             <a href="#contact" className="hover:text-primary transition-colors">Kontakt</a>
             <a href="#contact" className="hover:text-primary transition-colors">Lokacija</a>
           </div>
-          <Button asChild size="sm" className="bg-gradient-warm shadow-warm">
-            <a href="tel:+381693345455"><Phone className="h-4 w-4" />Poruči</a>
-          </Button>
+          <div className="flex items-center gap-4">
+            <Button asChild size="sm" className="bg-gradient-warm shadow-warm">
+              <a href="tel:+381693345455"><Phone className="h-4 w-4" />Poruči</a>
+            </Button>
+
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                <nav className="flex flex-col gap-6 mt-12">
+                  <a href="#menu" onClick={() => setIsMobileMenuOpen(false)} className="text-xl font-medium hover:text-primary transition-colors">Meni</a>
+                  <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-xl font-medium hover:text-primary transition-colors">O nama</a>
+                  <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-xl font-medium hover:text-primary transition-colors">Kontakt</a>
+                  <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-xl font-medium hover:text-primary transition-colors">Lokacija</a>
+                  <Button asChild className="bg-gradient-warm mt-4">
+                    <a href="tel:+381693345455" onClick={() => setIsMobileMenuOpen(false)}><Phone className="h-4 w-4" /> Pozovite nas</a>
+                  </Button>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
         </nav>
       </header>
 
