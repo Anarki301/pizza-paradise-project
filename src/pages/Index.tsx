@@ -172,14 +172,11 @@ const Index = () => {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <div className="hidden md:block">
-                <CarouselPrevious className="-left-12 bg-background/50 backdrop-blur-md border-border/50 hover:bg-primary hover:text-white transition-all" />
-                <CarouselNext className="-right-12 bg-background/50 backdrop-blur-md border-border/50 hover:bg-primary hover:text-white transition-all" />
-              </div>
-              {/* Mobile indicators or just let it swipe */}
-              <div className="flex md:hidden justify-center gap-2 mt-6">
-                <CarouselPrevious className="static translate-y-0 h-10 w-10" />
-                <CarouselNext className="static translate-y-0 h-10 w-10" />
+              
+              {/* Navigation Arrows - Now centered below for all screen sizes */}
+              <div className="flex justify-center gap-4 mt-10">
+                <CarouselPrevious className="static translate-y-0 h-12 w-12 border-2 border-primary/20 hover:border-primary hover:bg-primary hover:text-white transition-all duration-300" />
+                <CarouselNext className="static translate-y-0 h-12 w-12 border-2 border-primary/20 hover:border-primary hover:bg-primary hover:text-white transition-all duration-300" />
               </div>
             </Carousel>
           </div>
