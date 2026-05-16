@@ -43,7 +43,7 @@ const Index = () => {
             <a href="#menu" className="hover:text-primary transition-colors">Meni</a>
             <a href="#about" className="hover:text-primary transition-colors">O nama</a>
             <a href="#contact" className="hover:text-primary transition-colors">Kontakt</a>
-            <a href="#location" className="hover:text-primary transition-colors">Lokacija</a>
+            <a href="#contact" className="hover:text-primary transition-colors">Lokacija</a>
           </div>
           <Button asChild size="sm" className="bg-gradient-warm shadow-warm">
             <a href="tel:+381693345455"><Phone className="h-4 w-4" />Poruči</a>
