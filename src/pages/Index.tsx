@@ -7,6 +7,13 @@ import { toast } from "sonner";
 import { MapPin, Phone, Clock, Star, Instagram, Pizza, Flame, Send } from "lucide-react";
 import heroPizza from "@/assets/hero-pizza.jpg";
 import { bestsellers, categories, formatPrice } from "@/data/menu";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const Index = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -118,41 +125,63 @@ const Index = () => {
             </p>
           </div>
 
-          {/* Horizontal scroll bestsellers */}
-          <div className="-mx-4 md:-mx-8 px-4 md:px-8 mb-20">
-            <div className="flex gap-5 overflow-x-auto pb-6 snap-x snap-mandatory scroll-smooth [scrollbar-width:thin]">
-              {bestsellers.map((item) => (
-                <article
-                  key={item.name}
-                  className="group snap-start shrink-0 w-[260px] sm:w-[280px] overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-warm transition-all duration-300 hover:-translate-y-1 flex flex-col"
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-                    <img
-                      src={item.img}
-                      alt={`${item.name} — ${item.desc}`}
-                      loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <span className="absolute top-3 left-3 text-xs px-3 py-1 rounded-full bg-primary text-primary-foreground font-semibold shadow-lg">
-                      ★ Bestseller
-                    </span>
-                    {item.tag && (
-                      <span className="absolute top-3 right-3 text-xs px-3 py-1 rounded-full bg-background/90 backdrop-blur-sm text-foreground border border-border font-medium">
-                        {item.tag}
-                      </span>
-                    )}
-                  </div>
-                  <div className="p-5 flex flex-col flex-1">
-                    <h3 className="font-display text-xl font-bold mb-2 leading-tight">{item.name}</h3>
-                    <p className="text-muted-foreground mb-4 leading-relaxed text-sm flex-1 line-clamp-3">{item.desc}</p>
-                    <div className="flex items-center justify-between pt-3 border-t border-border">
-                      <span className="font-display text-xl font-bold text-gradient-warm">{formatPrice(item.price)}</span>
-                      <Pizza className="h-4 w-4 text-primary opacity-50 group-hover:opacity-100 group-hover:rotate-12 transition-all" />
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+          {/* Horizontal scroll bestsellers with Carousel */}
+          <div className="relative mb-20">
+            <Carousel
+              opts={{
+                align: "start",
+                loop: false,
+                breakpoints: {
+                  "(min-width: 1024px)": { slidesToScroll: 3 },
+                  "(min-width: 640px)": { slidesToScroll: 2 },
+                },
+              }}
+              className="w-full"
+            >
+              <CarouselContent className="-ml-4">
+                {bestsellers.map((item) => (
+                  <CarouselItem key={item.name} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
+                    <article
+                      className="group h-full overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-warm transition-all duration-300 hover:-translate-y-1 flex flex-col"
+                    >
+                      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                        <img
+                          src={item.img}
+                          alt={`${item.name} — ${item.desc}`}
+                          loading="lazy"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <span className="absolute top-3 left-3 text-xs px-3 py-1 rounded-full bg-primary text-primary-foreground font-semibold shadow-lg">
+                          ★ Bestseller
+                        </span>
+                        {item.tag && (
+                          <span className="absolute top-3 right-3 text-xs px-3 py-1 rounded-full bg-background/90 backdrop-blur-sm text-foreground border border-border font-medium">
+                            {item.tag}
+                          </span>
+                        )}
+                      </div>
+                      <div className="p-5 flex flex-col flex-1">
+                        <h3 className="font-display text-xl font-bold mb-2 leading-tight">{item.name}</h3>
+                        <p className="text-muted-foreground mb-4 leading-relaxed text-sm flex-1 line-clamp-3">{item.desc}</p>
+                        <div className="flex items-center justify-between pt-3 border-t border-border">
+                          <span className="font-display text-xl font-bold text-gradient-warm">{formatPrice(item.price)}</span>
+                          <Pizza className="h-4 w-4 text-primary opacity-50 group-hover:opacity-100 group-hover:rotate-12 transition-all" />
+                        </div>
+                      </div>
+                    </article>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="hidden md:block">
+                <CarouselPrevious className="-left-12 bg-background/50 backdrop-blur-md border-border/50 hover:bg-primary hover:text-white transition-all" />
+                <CarouselNext className="-right-12 bg-background/50 backdrop-blur-md border-border/50 hover:bg-primary hover:text-white transition-all" />
+              </div>
+              {/* Mobile indicators or just let it swipe */}
+              <div className="flex md:hidden justify-center gap-2 mt-6">
+                <CarouselPrevious className="static translate-y-0 h-10 w-10" />
+                <CarouselNext className="static translate-y-0 h-10 w-10" />
+              </div>
+            </Carousel>
           </div>
 
           {/* Full menu by category */}
