@@ -233,9 +233,9 @@ const Index = () => {
                   {cat.type === "pizza" ? (
                     <>
                       <div className="hidden md:flex justify-end gap-6 px-4 mb-3 text-xs uppercase tracking-wider text-muted-foreground font-semibold">
-                        <span className="w-20 text-right">24cm</span>
-                        <span className="w-20 text-right">32cm</span>
-                        <span className="w-20 text-right">42cm</span>
+                        <span className="w-20 text-center">24cm</span>
+                        <span className="w-20 text-center">32cm</span>
+                        <span className="w-20 text-center">42cm</span>
                       </div>
                       <ul className="divide-y divide-border">
                         {cat.items.map((item) => (
@@ -250,10 +250,10 @@ const Index = () => {
                               <h4 className="font-display text-lg font-bold">{item.name}</h4>
                               <p className="text-sm text-muted-foreground leading-snug mt-0.5">{item.desc}</p>
                             </div>
-                            <div className="flex md:justify-end gap-6 text-sm font-semibold">
+                            <div className="flex md:justify-end gap-6 px-4 text-sm font-semibold">
                               {(["24cm", "32cm", "42cm"] as const).map((size) => (
-                                <div key={size} className="md:w-20 text-right">
-                                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground md:hidden">{size}</div>
+                                <div key={size} className="md:w-20 text-center">
+                                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground md:hidden text-center">{size}</div>
                                   <div className="font-display text-base font-bold text-gradient-warm">
                                     {item.prices[size] ? `${item.prices[size]?.toLocaleString("sr-RS")}` : "—"}
                                   </div>
