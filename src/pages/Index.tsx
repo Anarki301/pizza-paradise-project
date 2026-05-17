@@ -92,7 +92,7 @@ const Index = () => {
             </div>
             <h1 className="font-display text-5xl md:text-7xl font-bold leading-[1.05]">
               Premium Pizza
-              <span className="block italic text-3xl md:text-5xl mt-2 text-gradient-gold">i Nešto Lagano</span>
+              <span className="block italic text-3xl md:text-5xl mt-2 pb-2 text-gradient-gold">i Nešto Lagano</span>
             </h1>
             <p className="text-lg md:text-xl text-white/85 max-w-lg leading-relaxed">
               Autentična pica i lagani obroci u srcu Novog Beograda. Dostava i preuzimanje na licu mesta.
